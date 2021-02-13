@@ -1,16 +1,30 @@
 import CountriesTable from '../components/CountriesTable/CountriesTable';
 import Layout from '../components/Layout/Layout';
 import SearchInput from '../components/SearchInput/SearchInput';
+import { useState } from 'react';
 import styles from '../styles/Home.module.css'
 
 export default function Home({countries}) {
+
+  const [keyword, setKeyboard] = useState('');
+
+  const filteredCountries = countries.filter((country) => country.name.toLowerCase().includes(keyword) ||
+  country.region.toLowerCase().includes(keyword) ||
+  country.subregion.toLowerCase().includes(keyword));
+
+  const onInputChange = (e) => {
+    e.preventDefault();
+
+    setKeyboard(e.target.value.toLowerCase());
+  };
+
   return (
     <Layout>
       <div className={styles.count}>Found {countries.length} countries.</div>
 
-      <SearchInput placeholder="Filter by Name, Region or Subregion" />
+      <SearchInput placeholder="Filter by Name, Region or Subregion" onChange={onInputChange} />
 
-      <CountriesTable countries={countries} />
+      <CountriesTable countries={filteredCountries} />
     </Layout>
   );
 };
