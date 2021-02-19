@@ -13,7 +13,6 @@ const getCountry = async (id) => {
 const Country = ({country}) => {
     const [borders, setBorders] = useState([]);
 
-
     const getBorders = async () => {
         const borders = await Promise.all(
             country.borders.map((border) => getCountry(border))
